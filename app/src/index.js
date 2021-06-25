@@ -29,8 +29,6 @@ const App = {
   },
 
   initSupplyChain: function () {
-    this.fetchItemBufferOne();
-    this.fetchItemBufferTwo();
     this.fetchEvents();
 
     return this.bindEvents();
@@ -74,13 +72,28 @@ const App = {
         case 13:
             return await App.addRetailer(event);
         case 14:
-          return await App.addConsumer(event);
+            return await App.addConsumer(event);
+        case 15:
+            return await App.transferOwnership(event);
     }
+  },
+
+  transferOwnership: function(event) {
+    event.preventDefault();
+
+    const { transferOwnership } = this.meta.methods;
+
+    transferOwnership($("#address").val()).send({from: this.account})
+    .then(function(result) {
+      $("#ftc-item").text(JSON.stringify(result));
+      console.log('transferOwnership',result);
+    }).catch(function(err) {
+      console.log(err.message);
+    });
   },
 
   addConsumer: function(event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const {addConsumer} = this.meta.methods;
 
@@ -95,7 +108,6 @@ const App = {
 
   addRetailer: function(event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const {addRetailer} = this.meta.methods;
 
@@ -110,7 +122,6 @@ const App = {
 
   addFarmer: function(event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const {addFarmer} = this.meta.methods;
 
@@ -125,7 +136,6 @@ const App = {
 
   addDistributor: function(event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const {addDistributor} = this.meta.methods;
 
@@ -140,7 +150,6 @@ const App = {
 
   harvestItem: function(event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
     const { harvestItem } = this.meta.methods;
 
     harvestItem(
@@ -162,7 +171,6 @@ const App = {
 
   processItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { processItem } = this.meta.methods;
 
@@ -177,13 +185,8 @@ const App = {
 
   packItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { packItem } = this.meta.methods;
-
-    console.log('account: ' + this.account);
-
-
 
     packItem($("#upc").val()).send({from: this.account})
     .then(function(result) {
@@ -196,7 +199,6 @@ const App = {
 
   sellItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { sellItem } = this.meta.methods;
 
@@ -211,7 +213,6 @@ const App = {
 
   buyItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { buyItem } = this.meta.methods;
 
@@ -226,7 +227,6 @@ const App = {
 
   shipItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { shipItem } = this.meta.methods;
 
@@ -241,7 +241,6 @@ const App = {
 
   receiveItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { receiveItem } = this.meta.methods;
 
@@ -256,7 +255,6 @@ const App = {
 
   purchaseItem: function (event) {
     event.preventDefault();
-    var processId = parseInt($(event.target).data('id'));
 
     const { purchaseItem } = this.meta.methods;
 
@@ -271,8 +269,6 @@ const App = {
 
   fetchItemBufferOne: function () {
     const { fetchItemBufferOne } = this.meta.methods;
-
-    let self = this;
 
     fetchItemBufferOne($("#upc").val()).call()
     .then(function(result) {
