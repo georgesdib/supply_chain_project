@@ -16,6 +16,10 @@ Please find these under the folder UML
 * Web3.js v1.3.6
 
 I am using truffle hdwallet provider to connect to rinkeby using my metamask credentials, webpack for the UI, and IPFS as per below section.
+
+I am using web3 as a javascript library that allows me to interact with a local blockchain for testing (running Ganache for example), but also the Ethereum testnets and mainnet. Without web3, it would be very difficult to do that as it provides all the needed interfaces.
+
+I am using truffle as a tool and library for Ethereum smart contract development. Truffle offers a local blockchain, but also an all inclusive framework ranging from smart contract deployment on the chain, to providing a testing framework, a front end, as well as a series of "boxes" that serve as a starting template.
 # IPFS
 ## Image upload
 I have used the library ipfs-http-client to be able to complete the optional part of the project. This library allows controlling an IPFS node through Javascript.
@@ -82,6 +86,7 @@ The IPFS Hash of the picture is a hyperlink, if you click on it, it will take yo
 Also note the 2 buttons "Fetch Data 1" and "Fetch Data 2" would output the data to the console, but will also populate the relevant fields (and therefore you would lose the default values populated there).
 
 # Rinkeby
+## Contracts
 The contracts were deployed to the Rinkeby testnet at the following address:
 
 | Contract Name   | Contract Address                           |
@@ -91,3 +96,17 @@ The contracts were deployed to the Rinkeby testnet at the following address:
 | RetailerRole    | 0x2E888C8150243c75959E5C78cBd3C3A871c127a3 |
 | ConsumerRole    | 0xD4d250d3C20f9eA2d95BeC3DE9B4780AA064De3D |
 | SupplyChain     | 0x89337E44DbfBb5c60c16D825A0Cee42C0248766d |
+
+## Transactions
+Please find below the Transaction IDs:
+
+| Action    | Transaction ID                                                     |
+| --------- | ------------------------------------------------------------------ |
+| Harvested | 0x524e1d4c8b85a62638e06032e8cf63dccfd58952558e25df01a3b318fc677808 |
+| Processed | 0x1f9700c673ccf22bfd2412906cb38bff24697d5efd6faaf800bfc348ed9ce834 |
+| Packed    | 0x1bc775adc7a877b060d7a12d8ac12399bf2fdfef41c1431678195834b08b97e7 |
+| ForSale   | 0x2279f9089575c35767d9e730a50748841de16b9696ab4c02b68049c5de29cc4b |
+| Sold      | 0x2da3eee2286746cc84af2928beb098af941e3e293339cf6dc4665bbf98c83130 |
+| Shipped   | 0x212d7a966fa772eaa73825953ce650eea3634878806767b11a3431e385b3f124 |
+| Received  | 0x40ac719054e97d0667daf26594f288c8fc426f430852fb28da8d5e59b170d6c4 |
+| Purchased | 0x232b4474fcb4b0d1e36b660f7dcb388169000760ba09b38efc968a19343406a9 |
