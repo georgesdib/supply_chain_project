@@ -164,6 +164,9 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
     string memory _productNotes,
     string memory _ipfsHash) public onlyFarmer
   {
+    // Check if the item exists already, then don't harvest it again
+    require(items[_upc].sku == 0, "Item exists already");
+
     // Add the new item as part of Harvest
     items[_upc] = Item(
       sku,

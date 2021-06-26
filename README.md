@@ -36,11 +36,11 @@ ipfs add -r dist
 
 This will add all the contents. so in my case I get the following:
 
-georgesdib@Georgess-MacBook-Air app % ipfs add -r dist
+georgesdib@Georgess-MacBook-Air app % ipfs add -r dist 
 added QmRdS48jjPDHSkbwopXt9tmPDo1EE6qhkMRt2PGTDHL22t dist/index.html
-added QmZSZAGJfhubCDiBYZE5czcjPSfixWyXFeJg2Z8k19vn7n dist/index.js
+added QmZKbWbN62FN3ivcsMULVi9QxtbAocY6GzFEySL7wynakB dist/index.js
 added QmX7Q6inV1RntcfUUnmYAhq1WRfSpAEVAqFPbizbN6HJdj dist/style.css
-added QmfQkBbTjJoi4eJiLh3XeWeJNNmWNejHjn6dshqrFyqjPi dist
+added QmQG1ipLYsBQMuJrGD5GM3dNjehMnWn7Bi7XKgNUxekaPv dist
 
 Then using the hash of the directory <hash>, run the following command (make sure to have the daemon running first):
 
@@ -48,12 +48,12 @@ ipfs name publish <hash>
 
 which in my case gives me:
 
-georgesdib@Georgess-MacBook-Air app % ipfs name publish QmfQkBbTjJoi4eJiLh3XeWeJNNmWNejHjn6dshqrFyqjPi
-Published to k51qzi5uqu5dkqfao771zgsi267v8z18bqm6zn4rlwt05bfysv0lvqvunxzae1: /ipfs/QmfQkBbTjJoi4eJiLh3XeWeJNNmWNejHjn6dshqrFyqjPi
+georgesdib@Georgess-MacBook-Air app % ipfs name publish QmQG1ipLYsBQMuJrGD5GM3dNjehMnWn7Bi7XKgNUxekaPv
+Published to k51qzi5uqu5dkqfao771zgsi267v8z18bqm6zn4rlwt05bfysv0lvqvunxzae1: /ipfs/QmQG1ipLYsBQMuJrGD5GM3dNjehMnWn7Bi7XKgNUxekaPv
 
 I have also used a pinning service (Pinata) to pin my website, please find the link below:
 
-https://gateway.pinata.cloud/ipfs/QmfQkBbTjJoi4eJiLh3XeWeJNNmWNejHjn6dshqrFyqjPi/
+https://gateway.pinata.cloud/ipfs/QmQG1ipLYsBQMuJrGD5GM3dNjehMnWn7Bi7XKgNUxekaPv/
 # Front end
 For the front end, I used truffle webpack box as a template and then built on top. The boilerplate code was too old, and updating it would have taken much more time than simply using this template.
 
@@ -86,8 +86,8 @@ The contracts were deployed to the Rinkeby testnet at the following address:
 
 | Contract Name   | Contract Address                           |
 | --------------- | ------------------------------------------ |
-| FarmerRole      | 0xEA116b82A5b177732f597083dB4308f058F48e2E |
-| DistributorRole | 0x47d887F1Fcd997F05034135A34C39412ECf4C378 |
-| RetailerRole    | 0x43598271E871f26d8187c6d6E687Da4476685AD0 |
-| ConsumerRole    | 0xbf3dcF6e2C0795AbB7745a6ce681D3C079cF2Eb9 |
-| SupplyChain     | 0x4E4321212677442166c0ef38862a8f98aD6fF715 |
+| FarmerRole      | 0xcDBeeC3332A5Fb8e183f7393C197d2d3DdAb0549 |
+| DistributorRole | 0x875DB553fEf42e234c4cfc5cB0c9bDC91047FEab |
+| RetailerRole    | 0x2E888C8150243c75959E5C78cBd3C3A871c127a3 |
+| ConsumerRole    | 0xD4d250d3C20f9eA2d95BeC3DE9B4780AA064De3D |
+| SupplyChain     | 0x89337E44DbfBb5c60c16D825A0Cee42C0248766d |
