@@ -10,9 +10,6 @@ import "../coffeeaccesscontrol/RetailerRole.sol";
 
 // Define a contract 'Supplychain'
 contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, RetailerRole {
-  // Define a variable called 'upc' for Universal Product Code (UPC)
-  uint  upc;
-
   // Define a variable called 'sku' for Stock Keeping Unit (SKU)
   uint  sku;
 
@@ -22,6 +19,10 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
   // Define a public mapping 'itemsHistory' that maps the UPC to an array of TxHash, 
   // that track its journey through the supply chain -- to be sent from DApp.
   mapping (uint => string[]) itemsHistory;
+
+  // Define a public mapping `ipfsHashes` that maps the UPC to an IPFC hash of
+  // a picture uploaded by the original harvester
+  mapping (uint => string) ipfsHashes;
   
   // Define enum 'State' with the following values:
   enum State 
@@ -35,8 +36,6 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
     Received,   // 6
     Purchased   // 7
   }
-
-  State constant defaultState = State.Harvested;
 
   // Define a struct 'Item' with the following fields:
   struct Item {
@@ -66,6 +65,8 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
   event Shipped(uint upc);
   event Received(uint upc);
   event Purchased(uint upc);
+
+  event IPFSHashAdded(uint upc, string hash);
 
   // Define a modifer that verifies the Caller
   modifier verifyCaller (address _address) {
@@ -129,10 +130,8 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
 
   // In the constructor set 'owner' to the address that instantiated the contract (via the parent class)
   // and set 'sku' to 1
-  // and set 'upc' to 1
-  constructor() payable {
+  constructor() {
     sku = 1;
-    upc = 1;
   }
 
   // Define a function 'kill' if required
@@ -162,7 +161,8 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
     string memory _originFarmInformation,
     string memory _originFarmLatitude,
     string memory _originFarmLongitude,
-    string memory _productNotes) public onlyFarmer
+    string memory _productNotes,
+    string memory _ipfsHash) public onlyFarmer
   {
     // Add the new item as part of Harvest
     items[_upc] = Item(
@@ -187,6 +187,17 @@ contract SupplyChain is Ownable, ConsumerRole, DistributorRole, FarmerRole, Reta
     sku = sku + 1;
     // Emit the appropriate event
     emit Harvested(_upc);
+
+    // If a hash is provided, add it to the map
+    if (bytes(_ipfsHash).length > 0) {
+      ipfsHashes[_upc] = _ipfsHash;
+      emit IPFSHashAdded(_upc, _ipfsHash);
+    }
+  }
+
+  // Read the IPFS Hash for a given upc
+  function readIPFSHash(uint _upc) public view returns(string memory) {
+    return ipfsHashes[_upc];
   }
 
   // Define a function 'processItem' that allows a farmer to mark an item 'Processed'

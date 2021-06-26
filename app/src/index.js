@@ -1,5 +1,9 @@
 import Web3 from "web3";
 import supplyChain from "../../build/contracts/SupplyChain.json";
+import {create} from "ipfs-http-client";
+
+const ipfs_client_path = "https://ipfs.infura.io:5001";
+const ipfs_server_path = "https://ipfs.io/ipfs/";
 
 const App = {
   web3: null,
@@ -28,6 +32,43 @@ const App = {
     }
   },
 
+  getIpfsHash: function(event) {
+    event.preventDefault();
+
+    const { readIPFSHash } = this.meta.methods;
+
+    readIPFSHash($("#upc").val()).call()
+    .then(function(result) {
+      $("#ftc-item").text(JSON.stringify(result));
+      console.log('readIPFSHash',result);
+      App.updateIPFSLink(result);
+    }).catch(function(err) {
+      console.log(err.message);
+    });
+  },
+
+  updateIPFSLink: function(hash) {
+    document.getElementById("gateway-link").href = ipfs_server_path + hash;
+    document.getElementById("gateway-link").innerHTML = hash;
+  },
+
+  saveToIpfs: function(event) {
+    try {
+      const ipfsClient = create(ipfs_client_path);
+      ipfsClient.add(
+        event.target.files[0],
+        {
+          progress: (prog) => console.log(`received: ${prog}`)
+        }
+      ).then((added) => {
+        console.log(added);
+        App.updateIPFSLink(added.cid.toString());
+      })
+    } catch(err) {
+      console.error(err);
+    }
+  },
+
   initSupplyChain: function () {
     this.fetchEvents();
 
@@ -35,7 +76,9 @@ const App = {
   },
 
   bindEvents: function() {
-    $(document).on('click', App.handleButtonClick);
+    $("#input-file").on('change', App.saveToIpfs);
+    $("button").on('click', App.handleButtonClick);
+    //$(document).on('click', App.handleButtonClick);
   },
 
   handleButtonClick: async function(event) {
@@ -75,6 +118,8 @@ const App = {
             return await App.addConsumer(event);
         case 15:
             return await App.transferOwnership(event);
+        case 16:
+            return await App.getIpfsHash(event);
     }
   },
 
@@ -159,7 +204,8 @@ const App = {
       $("#originFarmInformation").val(), 
       $("#originFarmLatitude").val(),
       $("#originFarmLongitude").val(),
-      $("#productNotes").val()
+      $("#productNotes").val(),
+      document.getElementById("gateway-link").innerHTML
     ).send({from: this.account})
     .then(function(result) {
         $("#ftc-item").text(JSON.stringify(result));
